@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DragAndDrop (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DragAndDrop (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
