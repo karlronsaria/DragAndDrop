@@ -25,25 +25,35 @@
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView
-            x:Name="listView"
+        <Border BorderBrush="Gray" BorderThickness="4"
             Grid.Row="0"
             Grid.Column="0"
             >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text="{Binding Description}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            <ListView
+                x:Name="listView"
+                AllowDrop="True"
+                Drop="listView_Drop"
+                DragOver="gridView_DragOver"
+                CanReorderItems="True"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Description}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
 
         <GridView
             x:Name="gridView"
             Grid.Row="0"
             Grid.Column="1"
+            CanDrag="True"
+            CanDragItems="True"
+            DragItemsStarting="gridView_DragItemsStarting"
             >
             <GridView.ItemTemplate>
                 <DataTemplate>

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -27,6 +28,7 @@ namespace DragAndDrop
     public sealed partial class MainWindow : Window
     {
         public List<Item> Items = new();
+        public List<Item> SelectedItems = new();
 
         public MainWindow()
         {
@@ -40,6 +42,45 @@ namespace DragAndDrop
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
             myButton.Content = "Clicked";
+        }
+
+        private void gridView_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            args.Data.SetText("what");
+        }
+
+        private async void listView_Drop(object sender, DragEventArgs e)
+        {
+            bool hasText = e.DataView.Contains(StandardDataFormats.Text);
+            statusLine.Text = $"Has text: {hasText}";
+
+            if (hasText)
+            {
+                var item = await e.DataView.GetTextAsync();
+                statusLine.Text = $"Item: {item}";
+                SelectedItems.Add(new Item() { Name = item as string, Description = "A test item." });
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                listView.ItemsSource = null;
+                listView.ItemsSource = SelectedItems;
+            }
+        }
+
+        private void gridView_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = e.DataView.Contains(StandardDataFormats.Text)
+                ? DataPackageOperation.Copy
+                : DataPackageOperation.None;
+        }
+
+        private void gridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            statusLine.Text = $"Has items: {e.Items.Count}";
+
+            if (e.Items.Count > 0)
+            {
+                e.Data.SetText((e.Items[0] as Item).Name);
+                e.Data.RequestedOperation = DataPackageOperation.Copy;
+            }
         }
     }
 
