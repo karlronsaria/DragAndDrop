@@ -1,9 +1,15 @@
 # wish
 - I wish
-  - [ ] model update were controlled by ID only
+  - [x] model update were controlled by ID only
+  - [x] view controls had scrollbars
+    - link
+      - url: https://learn.microsoft.com/en-us/answers/questions/31863/uwp-listview-not-scrolling-vertically;
+      - retrieved: 2023_04_11
   - for
+    - [x] list rearrange drag-and-drop
     - [ ] a more appealing UI
     - [ ] a PowerShell-script version
+    - [ ] a DLL version
     - [ ] sort
       - by
         - [ ] ID
@@ -11,10 +17,12 @@
         - [ ] description
     - [ ] buttons
       - [ ] sort
-    - [ ] list rearrange drag-and-drop
+      - [ ] clear
+    - [ ] keyboard shortcuts
     - [ ] options
       - [ ] unique|no limit
       - [ ] move|copy
       - [ ] auto sort|no sort
     - [ ] custom models
-
+    - [ ] search bar
+    - [ ] multiselect

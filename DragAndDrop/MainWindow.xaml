@@ -12,9 +12,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <!--
+            # link
+            - url: https://learn.microsoft.com/en-us/answers/questions/31863/uwp-listview-not-scrolling-vertically;
+            - retrieved: 2023_04_11
+            -->
             <RowDefinition
                 MinHeight="400"
-                Height="Auto"
+                Height="*"
                 />
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -25,27 +30,26 @@
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Gray" BorderThickness="4"
+        <ListView
+            x:Name="listView"
             Grid.Row="0"
             Grid.Column="0"
+            AllowDrop="True"
+            Drop="listView_Drop"
+            DragOver="gridView_DragOver"
+            CanReorderItems="True"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Background="#1f1f1f"
             >
-            <ListView
-                x:Name="listView"
-                AllowDrop="True"
-                Drop="listView_Drop"
-                DragOver="gridView_DragOver"
-                CanReorderItems="True"
-                >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}"/>
-                            <TextBlock Text="{Binding Description}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Border>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Description}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <GridView
             x:Name="gridView"
@@ -79,8 +83,6 @@
             x:Name="statusLine"
             Grid.Row="2"
             Grid.ColumnSpan="2"
-            >
-            What Is Up!?
-        </TextBlock>
+            />
     </Grid>
 </Window>

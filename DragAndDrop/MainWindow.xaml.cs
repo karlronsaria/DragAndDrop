@@ -33,9 +33,15 @@ namespace DragAndDrop
         public MainWindow()
         {
             this.InitializeComponent();
-            Items.Add(new Item() { Name = "Sus", Description = "A sus." });
-            Items.Add(new Item() { Name = "Ihr", Description = "An ihr." });
-            Items.Add(new Item() { Name = "Oth", Description = "An oth." });
+
+            // todo: test content
+            for (int i = 0; i < 500; i++)
+            {
+                Items.Add(new Item() { Name = "Sus", Description = "A sus." });
+                Items.Add(new Item() { Name = "Ihr", Description = "An ihr." });
+                Items.Add(new Item() { Name = "Oth", Description = "An oth." });
+            }
+
             gridView.ItemsSource = Items;
         }
 
@@ -44,21 +50,16 @@ namespace DragAndDrop
             myButton.Content = "Clicked";
         }
 
-        private void gridView_DragStarting(UIElement sender, DragStartingEventArgs args)
-        {
-            args.Data.SetText("what");
-        }
-
         private async void listView_Drop(object sender, DragEventArgs e)
         {
             bool hasText = e.DataView.Contains(StandardDataFormats.Text);
-            statusLine.Text = $"Has text: {hasText}";
+            Debug($"Has text: {hasText}");
 
             if (hasText)
             {
-                var item = await e.DataView.GetTextAsync();
-                statusLine.Text = $"Item: {item}";
-                SelectedItems.Add(new Item() { Name = item as string, Description = "A test item." });
+                var itemId = int.Parse(await e.DataView.GetTextAsync());
+                Debug($"Item ID: {itemId}");
+                SelectedItems.Add(Item.All[itemId]);
                 e.AcceptedOperation = DataPackageOperation.Copy;
                 listView.ItemsSource = null;
                 listView.ItemsSource = SelectedItems;
@@ -74,19 +75,36 @@ namespace DragAndDrop
 
         private void gridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            statusLine.Text = $"Has items: {e.Items.Count}";
+            Debug($"Has items: {e.Items.Count}");
 
             if (e.Items.Count > 0)
             {
-                e.Data.SetText((e.Items[0] as Item).Name);
+                e.Data.SetText($"{(e.Items[0] as Item).Id}");
                 e.Data.RequestedOperation = DataPackageOperation.Copy;
             }
+        }
+
+        public void Debug(string message)
+        {
+            statusLine.Text = message;
         }
     }
 
     public class Item
     {
+        public int Id { get; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        private static int _numberItems = 0;
+        public static readonly List<Item> All = new();
+
+        public Item()
+        {
+            Id = Item._numberItems;
+            Item.All.Add(this);
+            Item._numberItems++;
+        }
     }
 }
+
