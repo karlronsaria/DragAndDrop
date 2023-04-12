@@ -43,9 +43,31 @@
             >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text="{Binding Description}"/>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Background="#1e1e1e"
+                        >
+                        <Ellipse
+                            Height="20"
+                            Width="20"
+                            Margin="5"
+                            >
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel
+                            MinWidth="200"
+                            Margin="5"
+                            >
+                            <TextBlock
+                                Text="{Binding Name}"
+                                FontWeight="Bold"
+                                />
+                            <TextBlock
+                                Text="{Binding Description}"
+                                />
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -73,7 +95,7 @@
                             Margin="5"
                             >
                             <Ellipse.Fill>
-                                <SolidColorBrush Color="AliceBlue"/>
+                                <SolidColorBrush Color="{Binding Color}"/>
                             </Ellipse.Fill>
                         </Ellipse>
                         <StackPanel

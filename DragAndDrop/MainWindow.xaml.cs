@@ -95,6 +95,7 @@ namespace DragAndDrop
         public int Id { get; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Color { get; set; }
 
         private static int _numberItems = 0;
         public static readonly List<Item> All = new();
@@ -104,6 +105,7 @@ namespace DragAndDrop
             Id = Item._numberItems;
             Item.All.Add(this);
             Item._numberItems++;
+            Color = $"#{new Random().Next(0, 0xFFFFFF):X6}";
         }
     }
 }
