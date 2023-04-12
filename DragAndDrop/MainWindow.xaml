@@ -57,7 +57,7 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <StackPanel
-                            MinWidth="200"
+                            MinWidth="150"
                             Margin="5"
                             >
                             <TextBlock
@@ -90,6 +90,7 @@
                         Background="#1e1e1e"
                         >
                         <Ellipse
+                            x:Name="fillCircle"
                             Height="50"
                             Width="50"
                             Margin="5"
@@ -99,7 +100,7 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <StackPanel
-                            MinWidth="200"
+                            MinWidth="150"
                             Margin="5"
                             >
                             <TextBlock

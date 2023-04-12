@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -96,6 +97,7 @@ namespace DragAndDrop
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
+        public ImageSource ImageSource { get; set; }
 
         private static int _numberItems = 0;
         public static readonly List<Item> All = new();
