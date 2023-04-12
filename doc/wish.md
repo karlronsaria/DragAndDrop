@@ -7,9 +7,11 @@
       - retrieved: 2023_04_11
   - for
     - [x] list rearrange drag-and-drop
+    - [ ] JSON IO
     - [ ] a more appealing UI
     - [ ] a PowerShell-script version
     - [ ] a DLL version
+      - [ ] proper separation of solution and library code
     - [ ] sort
       - by
         - [ ] ID

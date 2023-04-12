@@ -55,15 +55,39 @@
             x:Name="gridView"
             Grid.Row="0"
             Grid.Column="1"
+            Grid.ColumnSpan="1"
             CanDrag="True"
             CanDragItems="True"
             DragItemsStarting="gridView_DragItemsStarting"
+            Margin="5"
             >
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text="{Binding Description}"/>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Background="#1e1e1e"
+                        >
+                        <Ellipse
+                            Height="50"
+                            Width="50"
+                            Margin="5"
+                            >
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="AliceBlue"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel
+                            MinWidth="200"
+                            Margin="5"
+                            >
+                            <TextBlock
+                                Text="{Binding Name}"
+                                FontWeight="Bold"
+                                />
+                            <TextBlock
+                                Text="{Binding Description}"
+                                />
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
