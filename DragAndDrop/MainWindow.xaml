@@ -43,32 +43,13 @@
             >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Background="#1e1e1e"
-                        >
-                        <Ellipse
-                            Height="20"
-                            Width="20"
-                            Margin="5"
-                            >
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="{Binding Color}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <StackPanel
-                            MinWidth="150"
-                            Margin="5"
-                            >
-                            <TextBlock
-                                Text="{Binding Name}"
-                                FontWeight="Bold"
-                                />
-                            <TextBlock
-                                Text="{Binding Description}"
-                                />
-                        </StackPanel>
-                    </StackPanel>
+                    <local:ItemCard
+                        CardBackground="#1e1e1e"
+                        FrameRadius="20"
+                        FrameFillColor="{Binding Color}"
+                        ItemName="{Binding Name}"
+                        Description="{Binding Description}"
+                        />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -85,38 +66,13 @@
             >
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Background="#1e1e1e"
-                        >
-                        <!--
-                        <Ellipse
-                            x:Name="fillCircle"
-                            Height="50"
-                            Width="50"
-                            Margin="5"
-                            >
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="{Binding Color}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        -->
-                        <local:CircleFrame
-                            FillColor="{Binding Color}"
-                            />
-                        <StackPanel
-                            MinWidth="150"
-                            Margin="5"
-                            >
-                            <TextBlock
-                                Text="{Binding Name}"
-                                FontWeight="Bold"
-                                />
-                            <TextBlock
-                                Text="{Binding Description}"
-                                />
-                        </StackPanel>
-                    </StackPanel>
+                    <local:ItemCard
+                        CardBackground="#1f1f1f"
+                        FrameRadius="50"
+                        FrameFillColor="{Binding Color}"
+                        ItemName="{Binding Name}"
+                        Description="{Binding Description}"
+                        />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

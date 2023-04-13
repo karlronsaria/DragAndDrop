@@ -11,8 +11,8 @@
     mc:Ignorable="d">
 
     <Ellipse
-        Height="50"
-        Width="50"
+        Height="{x:Bind Radius, Mode=TwoWay}"
+        Width="{x:Bind Radius, Mode=TwoWay}"
         Margin="5"
         >
         <Ellipse.Fill>

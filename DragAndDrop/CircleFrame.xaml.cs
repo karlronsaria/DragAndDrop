@@ -25,6 +25,13 @@ namespace DragAndDrop
 {
     public sealed partial class CircleFrame : UserControl
     {
+        public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
+            nameof(Radius),
+            typeof(int),
+            typeof(CircleFrame),
+            new PropertyMetadata(0)
+        );
+
         public static readonly DependencyProperty FillColorProperty = DependencyProperty.Register(
             nameof(FillColor),
             typeof(string),
@@ -35,6 +42,12 @@ namespace DragAndDrop
         public CircleFrame()
         {
             this.InitializeComponent();
+        }
+
+        public int Radius
+        {
+            get => (int)GetValue(RadiusProperty);
+            set => SetValue(RadiusProperty, value);
         }
 
         public string FillColor
