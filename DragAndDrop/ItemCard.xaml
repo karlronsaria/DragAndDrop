@@ -17,6 +17,7 @@
         <local:CircleFrame
             Radius="{x:Bind FrameRadius, Mode=TwoWay}"
             FillColor="{x:Bind FrameFillColor, Mode=TwoWay}"
+            ImageSource="{x:Bind FrameImage, Mode=TwoWay}"
             />
         <StackPanel
             MinWidth="150"

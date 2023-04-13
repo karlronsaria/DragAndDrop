@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Streaming.Adaptive;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -39,6 +41,13 @@ namespace DragAndDrop
             new PropertyMetadata($"#ffffff")
         );
 
+        public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(
+            nameof(ImageSource),
+            typeof(string),
+            typeof(CircleFrame),
+            new PropertyMetadata(default(string))
+        );
+
         public CircleFrame()
         {
             this.InitializeComponent();
@@ -53,7 +62,36 @@ namespace DragAndDrop
         public string FillColor
         {
             get => (string)GetValue(FillColorProperty);
-            set => SetValue(FillColorProperty, value);
+
+            set
+            {
+                if (value == null || value == "")
+                    return;
+
+                SetValue(FillColorProperty, value);
+                mainEllipse.Fill = GetSolidColorBrush(value);
+            }
+        }
+
+        public string ImageSource
+        {
+            get => (string)GetValue(ImageSourceProperty);
+
+            set
+            {
+                if (value == null || value == "")
+                    return;
+
+                SetValue(ImageSourceProperty, value);
+
+                mainEllipse.Fill = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage()
+                    {
+                        UriSource = new Uri(value)
+                    }
+                };
+            }
         }
 
         // link
@@ -63,12 +101,27 @@ namespace DragAndDrop
         public static SolidColorBrush GetSolidColorBrush(string hex)  
         {
             hex = hex.Replace("#", string.Empty);
-            byte a = (byte)(Convert.ToUInt32(hex[..2], 16));
-            byte r = (byte)(Convert.ToUInt32(hex.Substring(2, 2), 16));
-            byte g = (byte)(Convert.ToUInt32(hex.Substring(4, 2), 16));
-            byte b = (byte)(Convert.ToUInt32(hex.Substring(6, 2), 16));
-            var myBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(a, r, g, b));
-            return myBrush;
+            byte a;
+            int start;
+
+            switch (hex.Length)
+            {
+                case 6:
+                    a = 255;
+                    start = 0;
+                    break;
+                case 8:
+                    a = (byte)(Convert.ToUInt32(hex[..2], 16));
+                    start = 2;
+                    break;
+                default:
+                    return new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
+            }
+
+            byte r = (byte)Convert.ToUInt32(hex.Substring(start, 2), 16);
+            byte g = (byte)Convert.ToUInt32(hex.Substring(start + 2, 2), 16);
+            byte b = (byte)Convert.ToUInt32(hex.Substring(start + 2, 2), 16);
+            return new SolidColorBrush(Windows.UI.Color.FromArgb(a, r, g, b));
         }
     }
 }

@@ -47,6 +47,7 @@
                         CardBackground="#1e1e1e"
                         FrameRadius="20"
                         FrameFillColor="{Binding Color}"
+                        FrameImage="{Binding ImageSource}"
                         ItemName="{Binding Name}"
                         Description="{Binding Description}"
                         />
@@ -70,6 +71,7 @@
                         CardBackground="#1f1f1f"
                         FrameRadius="50"
                         FrameFillColor="{Binding Color}"
+                        FrameImage="{Binding ImageSource}"
                         ItemName="{Binding Name}"
                         Description="{Binding Description}"
                         />

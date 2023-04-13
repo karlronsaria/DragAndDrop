@@ -58,6 +58,13 @@ namespace DragAndDrop
             new PropertyMetadata($"#ffffff")
         );
 
+        public static readonly DependencyProperty FrameImageProperty = DependencyProperty.Register(
+            nameof(FrameImage),
+            typeof(string),
+            typeof(ItemCard),
+            new PropertyMetadata(default(string))
+        );
+
         public ItemCard()
         {
             this.InitializeComponent();
@@ -91,6 +98,12 @@ namespace DragAndDrop
         {
             get => (string)GetValue(FrameFillColorProperty);
             set => SetValue(FrameFillColorProperty, value);
+        }
+
+        public string FrameImage
+        {
+            get => (string)GetValue(FrameImageProperty);
+            set => SetValue(FrameImageProperty, value);
         }
     }
 }

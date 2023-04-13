@@ -40,7 +40,7 @@ namespace DragAndDrop
             {
                 Items.Add(new Item() { Name = "Sus", Description = "A sus." });
                 Items.Add(new Item() { Name = "Ihr", Description = "An ihr." });
-                Items.Add(new Item() { Name = "Oth", Description = "An oth." });
+                Items.Add(new Item() { Name = "Oth", Description = "An oth.", ImageSource = @"C:\pic\download\my\ProfilePhoto\kamenlou_2023_02_22_143540.jpg" });
             }
 
             gridView.ItemsSource = Items;
@@ -97,7 +97,7 @@ namespace DragAndDrop
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
-        public ImageSource ImageSource { get; set; }
+        public string ImageSource { get; set; }
 
         private static int _numberItems = 0;
         public static readonly List<Item> All = new();

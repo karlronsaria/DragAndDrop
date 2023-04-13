@@ -11,15 +11,18 @@
     mc:Ignorable="d">
 
     <Ellipse
+        x:Name="mainEllipse"
         Height="{x:Bind Radius, Mode=TwoWay}"
         Width="{x:Bind Radius, Mode=TwoWay}"
         Margin="5"
         >
+        <!--
         <Ellipse.Fill>
             <SolidColorBrush
                 x:Name="colorBrush"
                 Color="{x:Bind FillColor, Mode=TwoWay}"
                 />
         </Ellipse.Fill>
+        -->
     </Ellipse>
 </UserControl>
