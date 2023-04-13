@@ -89,6 +89,7 @@
                         Orientation="Horizontal"
                         Background="#1e1e1e"
                         >
+                        <!--
                         <Ellipse
                             x:Name="fillCircle"
                             Height="50"
@@ -99,6 +100,10 @@
                                 <SolidColorBrush Color="{Binding Color}"/>
                             </Ellipse.Fill>
                         </Ellipse>
+                        -->
+                        <local:CircleFrame
+                            FillColor="{Binding Color}"
+                            />
                         <StackPanel
                             MinWidth="150"
                             Margin="5"
