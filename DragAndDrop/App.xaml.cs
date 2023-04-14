@@ -37,6 +37,7 @@ namespace DragAndDrop
             @"C:\temp\DragAndDrop\selecteditems";
         public const string OUTFILE_PATH_EXT =
             ".json";
+        public const string EMPTY_JSON = "[]";
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -53,17 +54,14 @@ namespace DragAndDrop
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            string json = "";
-
-            if (File.Exists(INFILE_PATH))
-                json = File.ReadAllText(INFILE_PATH);
-
             m_window = new DragDropWindow.MainWindow()
             {
-                Json = json,
+                Json = File.Exists(INFILE_PATH)
+                    ? File.ReadAllText(INFILE_PATH)
+                    : "",
                 OutputJson = json =>
                 {
-                    if (json == "[]")
+                    if (json == EMPTY_JSON)
                         return;
 
                     var outFilePath = $"{OUTFILE_PATH_PREFIX}_{DateTime.Now:yyyy_MM_dd_HHmmss}{OUTFILE_PATH_EXT}";

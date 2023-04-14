@@ -7,7 +7,7 @@
       - retrieved: 2023_04_11
   - for
     - [x] list rearrange drag-and-drop
-    - [ ] JSON IO
+    - [x] JSON IO
     - [ ] a more appealing UI
     - [ ] a PowerShell-script version
     - [ ] a DLL version
@@ -20,6 +20,7 @@
     - [ ] buttons
       - [ ] sort
       - [ ] clear
+      - [ ] save to file
     - [ ] keyboard shortcuts
     - [ ] options
       - [ ] unique|no limit
@@ -27,4 +28,5 @@
       - [ ] auto sort|no sort
     - [ ] custom models
     - [ ] search bar
-    - [ ] multiselect
+    - [x] multiselect
+    - [ ] list remove
