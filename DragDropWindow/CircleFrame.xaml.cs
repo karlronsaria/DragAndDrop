@@ -59,30 +59,20 @@ namespace DragAndDrop
             set => SetValue(RadiusProperty, value);
         }
 
-        // # link
-        // - url: https://stackoverflow.com/questions/4835269/how-to-check-that-a-uri-string-is-valid
-        // - retrieved: 2023_04_13
         public string ImageSource
         {
             get => (string)GetValue(ImageSourceProperty);
 
             set
             {
-                if (
-                    value == null
-                    || value == ""
-                    || (
-                        !Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute)
-                        && !Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out var uri)
-                        && !File.Exists(value)
-                    )
-                ) return;
+                if (!File.Exists(value))
+                    return;
 
                 SetValue(ImageSourceProperty, value);
 
                 mainEllipse.Fill = new ImageBrush()
                 {
-                    ImageSource = new BitmapImage() { UriSource = uri }
+                    ImageSource = new BitmapImage() { UriSource = new Uri(value) }
                 };
             }
         }

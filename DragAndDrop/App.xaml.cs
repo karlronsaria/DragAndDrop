@@ -29,13 +29,18 @@ namespace DragAndDrop
     /// </summary>
     public partial class App : Application
     {
+        public const string INFILE_PATH =
+            @"C:\Users\karlr\AppData\Local\VirtualStore\Windows\SysWOW64\selected-items.json";
+        // "items.json";
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public App()
+        public App(string json)
         {
             this.InitializeComponent();
+            m_json = json;
         }
 
         /// <summary>
@@ -44,10 +49,17 @@ namespace DragAndDrop
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
+            m_window = new MainWindow(
+                string.IsNullOrWhiteSpace(m_json)
+                    ? File.ReadAllText(INFILE_PATH)
+                    : m_json
+            );
+
+            m_json = "";
             m_window.Activate();
         }
 
+        private string m_json;
         private Window m_window;
     }
 }
