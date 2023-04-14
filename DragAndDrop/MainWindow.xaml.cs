@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,11 +30,21 @@ namespace DragAndDrop
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public const string INFILE_PATH =
+            "items.json";
+        public const string OUTFILE_PATH_PREFIX =
+            "selecteditems";
+        public const string OUTFILE_PATH_EXT =
+            ".json";
+
         public List<Item> Items = new();
         public List<Item> SelectedItems = new();
 
         public MainWindow()
         {
+            // string json = File.ReadAllText(inFilePath);
+            // Items = JsonConvert.DeserializeObject<List<Item>>(json);
+
             this.InitializeComponent();
 
             // todo: test content
@@ -48,7 +60,11 @@ namespace DragAndDrop
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            myButton.Content = "Clicked";
+            var outFilePath = $"{OUTFILE_PATH_PREFIX}_{DateTime.Now:yyyy_MM_dd_HHmmss}{OUTFILE_PATH_EXT}";
+            var json = JsonConvert.SerializeObject(SelectedItems);
+            File.WriteAllText(outFilePath , json);
+            myButton.Content = "Saved";
+            myButton.IsEnabled = false;
         }
 
         private async void listView_Drop(object sender, DragEventArgs e)
@@ -58,16 +74,22 @@ namespace DragAndDrop
 
             if (hasText)
             {
-                var itemId = int.Parse(await e.DataView.GetTextAsync());
-                Debug($"Item ID: {itemId}");
-                SelectedItems.Add(Item.All[itemId]);
                 e.AcceptedOperation = DataPackageOperation.Copy;
+
+                (await e.DataView.GetTextAsync())
+                    .Split(',')
+                    .Select(s => int.Parse(s))
+                    .ToList()
+                    .ForEach(itemId => {
+                        SelectedItems.Add(Item.All[itemId]);
+                    });
+
                 listView.ItemsSource = null;
                 listView.ItemsSource = SelectedItems;
             }
         }
 
-        private void gridView_DragOver(object sender, DragEventArgs e)
+        private void listView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = e.DataView.Contains(StandardDataFormats.Text)
                 ? DataPackageOperation.Copy
@@ -80,7 +102,7 @@ namespace DragAndDrop
 
             if (e.Items.Count > 0)
             {
-                e.Data.SetText($"{(e.Items[0] as Item).Id}");
+                e.Data.SetText(string.Join(',', e.Items.Select(i => (i as Item).ItemId)));
                 e.Data.RequestedOperation = DataPackageOperation.Copy;
             }
         }
@@ -93,7 +115,7 @@ namespace DragAndDrop
 
     public class Item
     {
-        public int Id { get; }
+        public int ItemId { get; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
@@ -104,7 +126,7 @@ namespace DragAndDrop
 
         public Item()
         {
-            Id = Item._numberItems;
+            ItemId = Item._numberItems;
             Item.All.Add(this);
             Item._numberItems++;
             Color = $"#{new Random().Next(0, 0xFFFFFF):X6}";

@@ -36,7 +36,7 @@
             Grid.Column="0"
             AllowDrop="True"
             Drop="listView_Drop"
-            DragOver="gridView_DragOver"
+            DragOver="listView_DragOver"
             CanReorderItems="True"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             Background="#1f1f1f"
@@ -64,6 +64,7 @@
             CanDragItems="True"
             DragItemsStarting="gridView_DragItemsStarting"
             Margin="5"
+            SelectionMode="Extended"
             >
             <GridView.ItemTemplate>
                 <DataTemplate>
