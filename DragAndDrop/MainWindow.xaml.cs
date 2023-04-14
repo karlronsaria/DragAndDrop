@@ -37,6 +37,8 @@ namespace DragAndDrop
         public const string OUTFILE_PATH_EXT =
             ".json";
 
+        public const char ITEM_DELIM = ',';
+
         public List<Item> Items = new();
         public List<Item> SelectedItems = new();
 
@@ -77,7 +79,7 @@ namespace DragAndDrop
                 e.AcceptedOperation = DataPackageOperation.Copy;
 
                 (await e.DataView.GetTextAsync())
-                    .Split(',')
+                    .Split(ITEM_DELIM)
                     .Select(s => int.Parse(s))
                     .ToList()
                     .ForEach(itemId => {
@@ -102,7 +104,7 @@ namespace DragAndDrop
 
             if (e.Items.Count > 0)
             {
-                e.Data.SetText(string.Join(',', e.Items.Select(i => (i as Item).ItemId)));
+                e.Data.SetText(string.Join(ITEM_DELIM, e.Items.Select(i => (i as Item).ItemId)));
                 e.Data.RequestedOperation = DataPackageOperation.Copy;
             }
         }
