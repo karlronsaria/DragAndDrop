@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,17 +31,20 @@ namespace DragAndDrop
     public partial class App : Application
     {
         public const string INFILE_PATH =
-            @"C:\Users\karlr\AppData\Local\VirtualStore\Windows\SysWOW64\selected-items.json";
+            @"C:\temp\DragAndDrop\items.json";
         // "items.json";
+        public const string OUTFILE_PATH_PREFIX =
+            @"C:\temp\DragAndDrop\selecteditems";
+        public const string OUTFILE_PATH_EXT =
+            ".json";
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public App(string json)
+        public App()
         {
             this.InitializeComponent();
-            m_json = json;
         }
 
         /// <summary>
@@ -49,17 +53,27 @@ namespace DragAndDrop
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow(
-                string.IsNullOrWhiteSpace(m_json)
-                    ? File.ReadAllText(INFILE_PATH)
-                    : m_json
-            );
+            string json = "";
 
-            m_json = "";
+            if (File.Exists(INFILE_PATH))
+                json = File.ReadAllText(INFILE_PATH);
+
+            m_window = new DragDropWindow.MainWindow()
+            {
+                Json = json,
+                OutputJson = json =>
+                {
+                    if (json == "[]")
+                        return;
+
+                    var outFilePath = $"{OUTFILE_PATH_PREFIX}_{DateTime.Now:yyyy_MM_dd_HHmmss}{OUTFILE_PATH_EXT}";
+                    File.WriteAllText(outFilePath, json);
+                }
+            };
+
             m_window.Activate();
         }
 
-        private string m_json;
         private Window m_window;
     }
 }

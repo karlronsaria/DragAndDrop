@@ -23,35 +23,44 @@ using Windows.Foundation.Metadata;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace DragAndDrop
+namespace DragDropWindow
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public const string OUTFILE_PATH_PREFIX =
-            "selecteditems";
-        public const string OUTFILE_PATH_EXT =
-            ".json";
-
         public const char ITEM_DELIM = ',';
+        public delegate void OutputJsonType(string json);
 
-        public List<Item> Items = new();
-        public List<Item> SelectedItems = new();
+        public string Json
+        {
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    return;
 
-        public MainWindow(string json = "")
+                _items = JsonConvert.DeserializeObject<List<Item>>(value);
+                gridView.ItemsSource = _items;
+            }
+        }
+
+        public OutputJsonType OutputJson { get; set; } = s => { };
+
+        private void SaveSelection()
+        {
+            OutputJson(JsonConvert.SerializeObject(_selectedItems));
+        }
+
+        public MainWindow()
         {
             this.InitializeComponent();
-            Items = JsonConvert.DeserializeObject<List<Item>>(json);
-            gridView.ItemsSource = Items;
+            Closed += (s, e) => SaveSelection();
         }
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            var outFilePath = $"{OUTFILE_PATH_PREFIX}_{DateTime.Now:yyyy_MM_dd_HHmmss}{OUTFILE_PATH_EXT}";
-            var json = JsonConvert.SerializeObject(SelectedItems);
-            File.WriteAllText(outFilePath , json);
+            SaveSelection();
             myButton.Content = "Saved";
             myButton.IsEnabled = false;
         }
@@ -70,11 +79,11 @@ namespace DragAndDrop
                     .Select(s => int.Parse(s))
                     .ToList()
                     .ForEach(itemId => {
-                        SelectedItems.Add(Item.All[itemId]);
+                        _selectedItems.Add(Item.All[itemId]);
                     });
 
                 listView.ItemsSource = null;
-                listView.ItemsSource = SelectedItems;
+                listView.ItemsSource = _selectedItems;
             }
         }
 
@@ -100,6 +109,9 @@ namespace DragAndDrop
         {
             statusLine.Text = message;
         }
+
+        private List<Item> _items = new();
+        private readonly List<Item> _selectedItems = new();
     }
 
     public class Item

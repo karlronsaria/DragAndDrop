@@ -23,7 +23,7 @@ using Windows.Media.Streaming.Adaptive;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace DragAndDrop
+namespace DragDropWindow
 {
     public sealed partial class CircleFrame : UserControl
     {
